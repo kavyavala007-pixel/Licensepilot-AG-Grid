@@ -1,0 +1,61 @@
+{
+  "name": "licensepilot",
+  "private": true,
+  "version": "0.2.0",
+  "description": "AI-powered licence management and renewal automation for developer-tools vendors.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "scripts": {
+    "dev": "node scripts/prepare-db.js && concurrently -n api,web -c blue,cyan \"node server/index.js\" \"vite\"",
+    "build": "vite build",
+    "start": "node scripts/prepare-db.js && node server/index.js",
+    "db:push": "prisma db push",
+    "db:setup": "node scripts/prepare-db.js",
+    "db:seed": "node prisma/seed.js",
+    "db:studio": "prisma studio",
+    "db:reset": "prisma db push --force-reset && node prisma/seed.js",
+    "demo:reset": "curl -sS -X POST http://127.0.0.1:3001/api/demo/reset",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "lint": "eslint src server tests --ext .js,.jsx",
+    "format": "prettier --write \"src/**/*.{js,jsx,css}\" \"server/**/*.js\" \"tests/**/*.js\" \"scripts/**/*.js\" \"prisma/**/*.js\" \"*.{js,cjs}\" package.json README.md SETUP.md render.yaml .github/workflows/ci.yml",
+    "format:check": "prettier --check \"src/**/*.{js,jsx,css}\" \"server/**/*.js\" \"tests/**/*.js\" \"scripts/**/*.js\" \"prisma/**/*.js\" \"*.{js,cjs}\" package.json README.md SETUP.md render.yaml .github/workflows/ci.yml"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.30.1",
+    "@prisma/client": "^5.17.0",
+    "ag-charts-community": "^12.3.1",
+    "ag-charts-react": "^12.3.1",
+    "ag-grid-community": "^34.0.0",
+    "ag-grid-react": "^34.0.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.4.0",
+    "helmet": "^7.1.0",
+    "lucide-react": "^0.436.0",
+    "node-cron": "^4.6.0",
+    "prisma": "^5.17.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "@playwright/test": "^1.46.1",
+    "@vitejs/plugin-react": "^5.2.0",
+    "concurrently": "^8.2.2",
+    "eslint": "^9.9.1",
+    "eslint-plugin-react": "^7.37.5",
+    "globals": "^17.14.0",
+    "prettier": "^3.9.10",
+    "vite": "^6.4.5",
+    "vitest": "^4.1.12"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  }
+}

@@ -1,0 +1,62 @@
+# .gitignore — LicensePilot
+
+# Environment — NEVER commit secrets
+.env
+.env.*
+!.env.example
+
+# Database files
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+dev.db
+test.db
+prod.db
+
+# Private keys and local credentials
+*.key
+*.pem
+*.p12
+*.pfx
+*.secret
+id_rsa
+id_ed25519
+
+# Prisma generated
+node_modules/.prisma/
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Build output
+dist/
+build/
+
+# Vite cache
+.vite/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Test coverage
+coverage/
+
+# Playwright
+test-results/
+playwright-report/
+
+# Logs
+*.log
+logs/
+
+# Tunnel config
+.cloudflared/

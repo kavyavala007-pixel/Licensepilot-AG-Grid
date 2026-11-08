@@ -1,0 +1,154 @@
+// PostgreSQL schema. Keep models in sync with ../schema.prisma.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Vendor {
+  id          Int       @id @default(autoincrement())
+  name        String
+  slug        String    @unique
+  website     String?
+  logoUrl     String?
+  createdAt   DateTime  @default(now())
+  customers   Customer[]
+  licences    Licence[]
+}
+
+model Customer {
+  id              Int       @id @default(autoincrement())
+  vendorId        Int
+  company         String
+  region          String
+  plan            String
+  seats           Int
+  devsDetected    Int
+  renewalInDays   Int
+  paid            Boolean   @default(true)
+  autoRenewRequested Boolean @default(false)
+  value           Int
+  balanceDue      Int       @default(0)
+  billingEmail    String
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  vendor          Vendor    @relation(fields: [vendorId], references: [id])
+  licences        Licence[]
+  invoices        Invoice[]
+  orders          Order[]
+  subscriptions   Subscription[]
+  agentDecisions  AgentDecision[]
+}
+
+model Licence {
+  id          Int       @id @default(autoincrement())
+  vendorId    Int
+  customerId  Int
+  key         String    @unique
+  product     String
+  seats       Int
+  validUntil  DateTime
+  orderId     String?   @unique
+  createdAt   DateTime  @default(now())
+  vendor      Vendor    @relation(fields: [vendorId], references: [id])
+  customer    Customer  @relation(fields: [customerId], references: [id])
+}
+
+model Order {
+  id            Int       @id @default(autoincrement())
+  paypalOrderId String    @unique
+  customerId    Int?
+  amount        Float
+  currency      String    @default("USD")
+  description   String?
+  product       String?
+  seats         Int       @default(1)
+  status        String    @default("CREATED")
+  licenceKey    String?
+  mock          Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  customer      Customer? @relation(fields: [customerId], references: [id])
+}
+
+model Invoice {
+  id             Int       @id @default(autoincrement())
+  paypalInvoiceId String   @unique
+  customerId     Int?
+  amount         Float
+  currency       String    @default("USD")
+  recipientEmail String
+  description    String?
+  status         String    @default("SENT")
+  mock           Boolean   @default(false)
+  paidAt         DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  customer       Customer? @relation(fields: [customerId], references: [id])
+}
+
+model Subscription {
+  id                   Int       @id @default(autoincrement())
+  paypalSubscriptionId String    @unique
+  paypalPlanId         String?
+  customerId           Int?
+  amount               Float
+  currency             String    @default("USD")
+  status               String    @default("PENDING")
+  approvalUrl          String?
+  lastPaymentAt        DateTime?
+  mock                 Boolean   @default(false)
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+  customer             Customer? @relation(fields: [customerId], references: [id])
+}
+
+model PaymentEvent {
+  id            Int       @id @default(autoincrement())
+  paypalEventId String    @unique
+  eventType     String
+  resourceId    String?
+  resourceType  String?
+  summary       String?
+  rawPayload    String
+  processed     Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+}
+
+model Policy {
+  id          Int      @id @default(autoincrement())
+  key         String   @unique
+  label       String
+  value       String
+  valueType   String   @default("number")
+  description String?
+  updatedAt   DateTime @updatedAt
+}
+
+model AgentDecision {
+  id            Int       @id @default(autoincrement())
+  customerId    Int?
+  runId         String
+  dryRun        Boolean   @default(false)
+  inputs        String
+  aiReasoning   String?
+  policyVerdict String
+  action        String
+  result        String?
+  approvalUrl   String?
+  mock          Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  customer      Customer? @relation(fields: [customerId], references: [id])
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String
+  role      String   @default("viewer")
+  createdAt DateTime @default(now())
+}

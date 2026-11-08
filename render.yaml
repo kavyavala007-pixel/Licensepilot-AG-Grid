@@ -1,0 +1,24 @@
+# Free-only draft; not deployed. The API is loopback-only by operator request.
+# Render needs an externally reachable listener; deployment is paused pending authorization.
+services:
+  - type: web
+    name: licensepilot
+    env: node
+    plan: free
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/config
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        value: file:./prod.db
+      - key: PORT
+        value: 3001
+      # Add these in the Render dashboard (not in this file):
+      # PAYPAL_CLIENT_ID
+      # PAYPAL_CLIENT_SECRET
+      # PAYPAL_WEBHOOK_ID
+      # ANTHROPIC_API_KEY
+      # AI_MODEL
+      # APP_URL
