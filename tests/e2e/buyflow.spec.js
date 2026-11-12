@@ -6,6 +6,8 @@ import { test, expect } from "@playwright/test";
 test.describe("Buy flow", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("http://127.0.0.1:5173");
+    // The app opens on Overview; the buy flow lives on the Licence Advisor page.
+    await page.locator(".nav-btn", { hasText: "Licence Advisor" }).click();
   });
 
   test("shows correct product when ag-grid-enterprise is in package.json", async ({
@@ -58,15 +60,17 @@ test.describe("Buy flow", () => {
   test("free community shows no purchase needed", async ({ page }) => {
     const textarea = page.locator("textarea");
     await textarea.fill('{"dependencies":{"react":"^18.0.0"}}');
-    await expect(page.locator("text=Community edition")).toBeVisible();
+    await expect(
+      page.getByText("Community edition — no licence needed", { exact: true }),
+    ).toBeVisible();
   });
 });
 
 test.describe("Autopilot", () => {
   test("can run autopilot and see activity", async ({ page }) => {
     await page.goto("http://127.0.0.1:5173");
-    // Navigate to autopilot
-    await page.click("text=Renewal autopilot");
+    // Navigate to the Renewals page (the autopilot)
+    await page.locator(".nav-btn", { hasText: "Renewals" }).click();
     await expect(page.locator("text=Policy controls")).toBeVisible();
     await page.check("#dryrun");
     // Run

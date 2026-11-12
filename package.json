@@ -12,6 +12,7 @@
     "dev": "node scripts/prepare-db.js && concurrently -n api,web -c blue,cyan \"node server/index.js\" \"vite\"",
     "build": "vite build",
     "start": "node scripts/prepare-db.js && node server/index.js",
+    "stop": "node scripts/free-ports.js",
     "db:push": "prisma db push",
     "db:setup": "node scripts/prepare-db.js",
     "db:seed": "node prisma/seed.js",

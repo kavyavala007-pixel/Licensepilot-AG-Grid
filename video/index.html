@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LicensePilot — 3-minute product demo</title>
+    <style>
+      :root { color-scheme: light; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f4f2ed; color: #202329; }
+      body { margin: 0; padding: 36px 24px 56px; }
+      main { width: min(1100px, 100%); margin: 0 auto; }
+      h1 { margin: 0 0 8px; font-size: clamp(26px, 4vw, 40px); }
+      p { color: #626873; line-height: 1.55; }
+      .bar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin: 22px 0 14px; }
+      a.button { display: inline-block; padding: 11px 16px; border-radius: 8px; color: white; background: #d6532e; text-decoration: none; font-weight: 600; }
+      a.secondary { color: #30343b; background: white; border: 1px solid #ddd9d0; }
+      video { display: block; width: 100%; aspect-ratio: 16 / 9; background: #17191d; border-radius: 10px; box-shadow: 0 12px 32px #20232920; }
+      .disclosure { margin-top: 18px; padding: 14px 16px; background: white; border-left: 4px solid #d6532e; border-radius: 5px; font-size: 14px; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>LicensePilot — product demo</h1>
+      <p>Three-minute narrated screen recording. Select play below or download the MP4.</p>
+      <div class="bar">
+        <a class="button" href="LicensePilot-demo-180s.mp4" download>Download MP4</a>
+      </div>
+      <video controls autoplay playsinline preload="metadata" poster="poster.png">
+        <source src="LicensePilot-demo-180s.mp4" type="video/mp4" />
+        Your browser can’t play this video. Use Download MP4 above.
+      </video>
+      <div class="disclosure"><strong>Independent prototype · fictional data · sandbox/demo only.</strong> Not affiliated with, endorsed by, or sponsored by AG Grid or PayPal. Confirm real licensing terms with AG Grid.</div>
+    </main>
+  </body>
+</html>

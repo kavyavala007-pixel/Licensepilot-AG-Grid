@@ -794,6 +794,70 @@ app.get(
   }),
 );
 
+// ── Payments (read-only list for the Payments page) ───────────────────────────
+// Combines checkout orders, renewal invoices and subscriptions into one list.
+// `mock: true` rows were simulated (no PayPal credentials) and are labelled in the UI.
+
+app.get(
+  "/api/payments",
+  wrap(async (_req, res) => {
+    const customer = { select: { company: true } };
+    const [orders, invoices, subscriptions] = await Promise.all([
+      prisma.order.findMany({
+        orderBy: { createdAt: "desc" },
+        take: 100,
+        include: { customer },
+      }),
+      prisma.invoice.findMany({
+        orderBy: { createdAt: "desc" },
+        take: 100,
+        include: { customer },
+      }),
+      prisma.subscription.findMany({
+        orderBy: { createdAt: "desc" },
+        take: 100,
+        include: { customer },
+      }),
+    ]);
+    const rows = [
+      ...orders.map((o) => ({
+        kind: "Checkout",
+        id: o.paypalOrderId,
+        company: o.customer?.company ?? "Online buyer",
+        description: o.description || o.product || "",
+        amount: o.amount,
+        currency: o.currency,
+        status: o.status,
+        mock: o.mock,
+        time: o.createdAt.toISOString(),
+      })),
+      ...invoices.map((i) => ({
+        kind: "Renewal bill",
+        id: i.paypalInvoiceId,
+        company: i.customer?.company ?? i.recipientEmail,
+        description: i.description || "",
+        amount: i.amount,
+        currency: i.currency,
+        status: i.status,
+        mock: i.mock,
+        time: i.createdAt.toISOString(),
+      })),
+      ...subscriptions.map((s) => ({
+        kind: "Auto-renewal",
+        id: s.paypalSubscriptionId,
+        company: s.customer?.company ?? "Unknown",
+        description: "Yearly automatic renewal",
+        amount: s.amount,
+        currency: s.currency,
+        status: s.status,
+        mock: s.mock,
+        time: s.createdAt.toISOString(),
+      })),
+    ].sort((a, b) => new Date(b.time) - new Date(a.time));
+    res.json(rows);
+  }),
+);
+
 // ── Policies ──────────────────────────────────────────────────────────────────
 
 app.get(

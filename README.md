@@ -37,13 +37,25 @@ Open <http://127.0.0.1:5173>. `npm run dev` prepares the local SQLite database, 
 
 See [SETUP.md](./SETUP.md) for creating sandbox accounts, configuring credentials locally, and enabling a real sandbox webhook. Do not send credentials in chat or commit `.env`.
 
+## Pages
+
+| Page             | What it does                                                                  |
+| ---------------- | ----------------------------------------------------------------------------- |
+| Overview         | Start here: what the app does, key numbers, shortcuts                         |
+| Customers        | AG Grid customer list; click a company for details and auto-renewal           |
+| Licence Advisor  | Paste package.json → licence suggestion → spending-rule check → test payment  |
+| Renewals         | Run the renewal autopilot (practice run by default) and edit the safety rules |
+| AI Assistant     | Read-only questions about customers (simple rules when no Anthropic key)      |
+| Payments         | Every checkout, renewal bill and auto-renewal, labelled test or simulated     |
+| Activity History | Audit log of autopilot decisions and PayPal updates, CSV export               |
+
 ## Live payment demo
 
-The Buy a licence screen includes a one-click **Live payment demo** walkthrough. In demo mode, the simulated checkout is labelled and saved as demo data. For an actual sandbox checkout, configure the PayPal sandbox client ID and secret and use the PayPal buyer approval flow; the buyer must approve the order. The only approved test charge is **$1.00**, labelled “Sandbox test payment, no real money.” It is not a product price or licence quote.
+The **Licence Advisor** page runs the buy flow, and the **Payments** page lists every payment and includes a short "Try a full test purchase" walkthrough. In demo mode, the simulated checkout is labelled and saved as demo data. For an actual sandbox checkout, configure the PayPal sandbox client ID and secret and use the PayPal buyer approval flow; the buyer must approve the order. The only approved test charge is **$1.00**, labelled “Sandbox test payment, no real money.” It is not a product price or licence quote.
 
 For invoice and subscription payment updates, configure a webhook ID and expose the local API only after reviewing and approving a public tunnel. PayPal notifications are signature-verified and event IDs are persisted for idempotent processing. External API/tunnel use and public deployment require the operator's own credentials and authorization. The current sandbox integrations have not been independently verified with live credentials in this environment.
 
-Automatic-renewal setup requires recording the customer's opt-in in the customer detail drawer. LicensePilot creates a PayPal approval link only after that opt-in and the policy gates pass; recurring charges start only after the customer approves at PayPal.
+Automatic-renewal setup requires recording the customer's opt-in in the customer panel (click a company on the **Customers** page). LicensePilot creates a PayPal approval link only after that opt-in and the policy gates pass; recurring charges start only after the customer approves at PayPal.
 
 ## Environment
 
