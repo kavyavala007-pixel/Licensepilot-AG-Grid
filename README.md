@@ -23,6 +23,18 @@ flowchart LR
   Scheduler[node-cron] --> Policy
 ```
 
+## Technology and sponsor integrations
+
+| Tool or service | How this project uses it |
+| --- | --- |
+| **AG Grid Community** | Interactive customer licence table with sorting, filtering, selection, and CSV export. The dashboard is a hackathon prototype and is not affiliated with or endorsed by AG Grid. |
+| **PayPal Developer Platform — Sandbox REST APIs** | OAuth 2.0 obtains sandbox access tokens. Orders API v2 creates and captures the checkout test order; the Invoicing API creates and sends renewal invoices; the Subscriptions API creates annual renewal approval links. Webhook signature verification is included for incoming payment updates. No live PayPal environment or real money is used. |
+| **Anthropic Claude Sonnet 4.6 (optional)** | The Anthropic Messages API powers an optional tool-calling renewal agent. It can inspect a customer's licence and seat usage, check policy, and suggest an invoice, human review, or escalation. Code-enforced policy checks remain the hard gate. Without `ANTHROPIC_API_KEY`, the app labels and uses a fixed-rules fallback; it does not present that fallback as Claude. |
+| **Render (deployment draft only)** | `render.yaml` documents a possible free deployment configuration. The project is not deployed on Render, and the draft is not a live integration. |
+| **Other project technologies** | React, Vite, JavaScript, Express, Prisma, SQLite for local development, PostgreSQL schema/migration support, AG Charts, Zod, Server-Sent Events, and Playwright/Vitest for automated checks. |
+
+Real PayPal sandbox API calls and Anthropic model calls require credentials configured by the operator; those credentialed flows have not been verified for this submission. See [SETUP.md](./SETUP.md) for setup details. The 1 USD checkout is only a sandbox integration test and is not an AG Grid licence price or quote.
+
 ## Quick start (about 5 minutes)
 
 Requirements: Node.js 20.19+ and npm.
