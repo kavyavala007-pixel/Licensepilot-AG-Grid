@@ -1,10 +1,11 @@
-# Free-only draft; not deployed. The API is loopback-only by operator request.
-# Render needs an externally reachable listener; deployment is paused pending authorization.
+# Render Blueprint for the public demo. Set optional integration credentials in
+# the Render dashboard; never commit secrets to this file.
 services:
   - type: web
     name: licensepilot
     env: node
     plan: free
+    autoDeployTrigger: off
     buildCommand: npm ci && npm run build
     startCommand: npm start
     healthCheckPath: /api/config
@@ -13,8 +14,6 @@ services:
         value: production
       - key: DATABASE_URL
         value: file:./prod.db
-      - key: PORT
-        value: 3001
       # Add these in the Render dashboard (not in this file):
       # PAYPAL_CLIENT_ID
       # PAYPAL_CLIENT_SECRET

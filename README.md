@@ -4,6 +4,10 @@ AI-assisted licence operations for software vendors: recommend a licence, apply 
 
 **Independent hackathon prototype; not affiliated with or endorsed by AG Grid or PayPal. All payment flows are sandbox-only and use test money.**
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/kavyavala007-pixel/Licensepilot-AG-Grid)
+
+To create a public demo, click **Deploy to Render**, sign in to Render, review the blueprint, and approve it. Render will show the generated `onrender.com` URL when deployment finishes. The first request may take about a minute after the free service has been idle. This demo uses fictional seed data and SQLite on temporary storage; data can reset when the free service restarts or redeploys. Do not enter real customer data or add production payment credentials.
+
 ## Problem and solution
 
 Developer-software licence purchases and renewals are often handled through spreadsheets and manual follow-up. LicensePilot demonstrates a different workflow: detect paid packages in a project manifest, explain a vendor-defined recommendation, and let an AI agent assist renewal operations while a code-enforced policy engine retains final authority. Checkout uses a clearly labelled **$1.00 sandbox test payment**; that amount is strictly a payment integration test, not a licence price or quote.
@@ -25,13 +29,13 @@ flowchart LR
 
 ## Technology and sponsor integrations
 
-| Tool or service | How this project uses it |
-| --- | --- |
-| **AG Grid Community** | Interactive customer licence table with sorting, filtering, selection, and CSV export. The dashboard is a hackathon prototype and is not affiliated with or endorsed by AG Grid. |
-| **PayPal Developer Platform — Sandbox REST APIs** | OAuth 2.0 obtains sandbox access tokens. Orders API v2 creates and captures the checkout test order; the Invoicing API creates and sends renewal invoices; the Subscriptions API creates annual renewal approval links. Webhook signature verification is included for incoming payment updates. No live PayPal environment or real money is used. |
-| **Anthropic Claude Sonnet 4.6 (optional)** | The Anthropic Messages API powers an optional tool-calling renewal agent. It can inspect a customer's licence and seat usage, check policy, and suggest an invoice, human review, or escalation. Code-enforced policy checks remain the hard gate. Without `ANTHROPIC_API_KEY`, the app labels and uses a fixed-rules fallback; it does not present that fallback as Claude. |
-| **Render (deployment draft only)** | `render.yaml` documents a possible free deployment configuration. The project is not deployed on Render, and the draft is not a live integration. |
-| **Other project technologies** | React, Vite, JavaScript, Express, Prisma, SQLite for local development, PostgreSQL schema/migration support, AG Charts, Zod, Server-Sent Events, and Playwright/Vitest for automated checks. |
+| Tool or service                                   | How this project uses it                                                                                                                                                                                                                                                                                                                                                     |
+| ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **AG Grid Community**                             | Interactive customer licence table with sorting, filtering, selection, and CSV export. The dashboard is a hackathon prototype and is not affiliated with or endorsed by AG Grid.                                                                                                                                                                                             |
+| **PayPal Developer Platform — Sandbox REST APIs** | OAuth 2.0 obtains sandbox access tokens. Orders API v2 creates and captures the checkout test order; the Invoicing API creates and sends renewal invoices; the Subscriptions API creates annual renewal approval links. Webhook signature verification is included for incoming payment updates. No live PayPal environment or real money is used.                           |
+| **Anthropic Claude Sonnet 4.6 (optional)**        | The Anthropic Messages API powers an optional tool-calling renewal agent. It can inspect a customer's licence and seat usage, check policy, and suggest an invoice, human review, or escalation. Code-enforced policy checks remain the hard gate. Without `ANTHROPIC_API_KEY`, the app labels and uses a fixed-rules fallback; it does not present that fallback as Claude. |
+| **Render (optional hosting)**                     | The included Blueprint can deploy a public demo web service from the repository. It does not configure PayPal or Anthropic credentials, and no hosted service is created until an owner signs in and approves deployment.                                                                                                                                                    |
+| **Other project technologies**                    | React, Vite, JavaScript, Express, Prisma, SQLite for local development, PostgreSQL schema/migration support, AG Charts, Zod, Server-Sent Events, and Playwright/Vitest for automated checks.                                                                                                                                                                                 |
 
 Real PayPal sandbox API calls and Anthropic model calls require credentials configured by the operator; those credentialed flows have not been verified for this submission. See [SETUP.md](./SETUP.md) for setup details. The 1 USD checkout is only a sandbox integration test and is not an AG Grid licence price or quote.
 

@@ -30,6 +30,9 @@ const distPath = path.resolve(
   "../dist",
 );
 const PORT = process.env.PORT || 3001;
+const HOST =
+  process.env.HOST ||
+  (process.env.NODE_ENV === "production" ? "0.0.0.0" : "127.0.0.1");
 const AI_MODEL = process.env.AI_MODEL || "claude-sonnet-4-6";
 const AK = process.env.ANTHROPIC_API_KEY;
 const demoMode = !paypalOn;
@@ -1180,8 +1183,8 @@ cron.schedule("0 9 * * *", async () => {
 
 // ─── Start ────────────────────────────────────────────────────────────────────
 
-app.listen(PORT, "127.0.0.1", () => {
-  console.log(`\n🚀 LicensePilot API → http://127.0.0.1:${PORT}`);
+app.listen(PORT, HOST, () => {
+  console.log(`\n🚀 LicensePilot API → http://${HOST}:${PORT}`);
   console.log(
     `   PayPal: ${paypalOn ? "✅ sandbox mode" : "⚠️  demo mode (no credentials)"}`,
   );
